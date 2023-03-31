@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+asyncpg = "*"
+sqlalchemy = "*"
+uvicorn = "*"
+fastapi = "*"
+pytz = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+passlib = "*"
+psycopg2-binary = "*"
+python-multipart = "*"
+python-dotenv = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
