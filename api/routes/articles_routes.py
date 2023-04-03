@@ -10,18 +10,19 @@ from core.dependencies import get_session, validate_access_token
 
 article_route = APIRouter()
 
-article_route.post('/', status_code=status.HTTP_201_CREATED, response_model=ArticleSchema)
+@article_route.post('/', status_code=status.HTTP_201_CREATED, response_model=ArticleSchema)
 async def post_article(article: ArticleSchema, user_logged: UserModel = Depends(validate_access_token), db: AsyncSession = Depends(get_session)) -> Response:
     
     new_article = ArticleModel(title=article.title, body=article.body, user_id=user_logged.id)
     
-    db.add(new_article)
-    await db.commit()
+    async with db as database:
+        database.add(new_article)
+        await database.commit()
     
-    return new_article
+        return new_article
 
 
-article_route.get('/', status_code=status.HTTP_200_OK, response_model=List[ArticleSchema])
+@article_route.get('/', status_code=status.HTTP_200_OK, response_model=List[ArticleSchema])
 async def get_all(db: AsyncSession = Depends(get_session)) -> Response:
     
     async with db as session:
@@ -32,7 +33,7 @@ async def get_all(db: AsyncSession = Depends(get_session)) -> Response:
         return articles
 
 
-article_route.get('/{id}', status_code=status.HTTP_200_OK, response_model=ArticleSchema)
+@article_route.get('/{id}', status_code=status.HTTP_200_OK, response_model=ArticleSchema)
 async def get_by_id(id: int, db: AsyncSession = Depends(get_session)) -> Response:
     
     async with db as session:
@@ -46,7 +47,7 @@ async def get_by_id(id: int, db: AsyncSession = Depends(get_session)) -> Respons
         return article
 
 
-article_route.patch('/{id}', status_code=status.HTTP_200_OK, response_model=ArticleSchema)
+@article_route.patch('/{id}', status_code=status.HTTP_200_OK, response_model=ArticleSchema)
 async def update_article(id: int, new_data: ArticleUpdateSchema, db: AsyncSession = Depends(get_session), user: UserModel = Depends(validate_access_token)) -> Response:
     
     async with db as session:
@@ -65,7 +66,7 @@ async def update_article(id: int, new_data: ArticleUpdateSchema, db: AsyncSessio
                 return article_to_update
 
 
-article_route.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
+@article_route.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 async def delete_article(id: int, user: UserModel = Depends(validate_access_token), db: AsyncSession = Depends(get_session)) -> None:
     
     async with db as session:
