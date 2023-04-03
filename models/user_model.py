@@ -10,7 +10,7 @@ class UserModel(Settings.DB_BASE_MODEL):
     id = Column(Integer, primary_key=True, autoincrement=True)
     fullname = Column(String(256), nullable=False)
     email = Column(String, unique=True)
-    password = Column(String(15), nullable=False)
+    password = Column(String(256), nullable=False)
     is_admin = Column(Boolean, default=False)
     articles = relationship('ArticleModel', cascade='all,delete-orphan', back_populates='created_by', uselist=True, lazy='joined')
 
