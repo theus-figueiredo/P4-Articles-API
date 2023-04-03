@@ -12,7 +12,7 @@ db_port = getenv('DB_PORT')
 db_name = getenv('DB_NAME')
 db_password = getenv('DB_PASSWORD')
 db_user = getenv('DB_USER')
-jwt_secret = getattr('JWT_SECRET')
+jwt_secret = getenv('JWT_SECRET')
 
 class Settings(BaseSettings):
     

@@ -10,3 +10,9 @@ class ArticleSchema(BaseModel):
     
     class Config:
         orm_mode = True
+
+
+class ArticleUpdateSchema(ArticleSchema):
+    title: Optional[str]
+    body: Optional[str]
+
