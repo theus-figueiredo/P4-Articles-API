@@ -8,7 +8,7 @@ class UserBaseSchema(BaseModel):
     id: Optional[int]
     fullname: str
     email: EmailStr
-    is_admin: bool = False
+    is_admin: Optional[bool] = False
     
     class Config:
         orm_mode = True
