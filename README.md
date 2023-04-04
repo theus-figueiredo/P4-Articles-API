@@ -1,4 +1,4 @@
-# API Simples com Python
+# API de criação de artigos com Python
 
 Projeto de API Python utilizando FastAPI com SQLAlchemy e banco de dados PostgreSQL
 
